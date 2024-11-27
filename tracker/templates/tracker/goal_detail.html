@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles de la Meta</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 py-8">
+    <div class="container mx-auto px-4 max-w-lg">
+        <h1 class="text-2xl font-bold text-center mb-6">Detalles de la Meta</h1>
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold mb-4">{{ goal.description }}</h2>
+            <p class="text-gray-600 mb-4">
+                Meta: {{ goal.target_reps }} reps
+            </p>
+
+            <!-- Formulario para registrar progreso -->
+            <form method="POST">
+                {% csrf_token %}
+                {{ progress_form.as_p }}
+                {% if progress_form.non_field_errors %}
+                    <div class="text-red-500 text-sm mb-4">
+                        {% for error in progress_form.non_field_errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <button type="submit" class="w-full bg-green-500 text-white py-2 rounded-lg hover:bg-green-600 transition">
+                    Registrar Progreso
+                </button>
+            </form>
+
+            <!-- Gráfico de progreso -->
+            <div class="mt-8">
+                <canvas id="progressChart"></canvas>
+            </div>
+        </div>
+        <a href="{% url 'workout_list' %}" class="block mt-4 text-center text-blue-500 hover:underline">Regresar</a>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('progressChart').getContext('2d');
+        const progressPercentage = {{ progress_percentage }};
+        const progressColor = progressPercentage < 50 ? 'red' : (progressPercentage < 80 ? 'orange' : 'green');
+    
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Progreso', 'Restante'],
+                datasets: [{
+                    data: [progressPercentage, 100 - progressPercentage],
+                    backgroundColor: [progressColor, '#e5e5e5'],
+                    borderWidth: 1,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            },
+        });
+    </script>
+    
+</body>
+</html>

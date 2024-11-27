@@ -1,0 +1,67 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calistenia Pro</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .hero-bg {
+            background: url("{% static 'background.jpg' %}") no-repeat center center;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="font-sans bg-gray-100">
+
+    <!-- Hero Section -->
+    <section class="hero-bg text-white py-20">
+        <div class="container mx-auto text-center">
+            <h1 class="text-5xl font-bold">¡Transforma tu cuerpo con Calistenia!</h1>
+            <p class="mt-4 text-xl">Crea entrenamientos personalizados y lleva un registro de tu progreso diario.</p>
+            <a href="#features" class="mt-8 inline-block bg-yellow-500 text-black px-6 py-3 rounded-full text-lg hover:bg-yellow-600 transition">Comienza Ahora</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto text-center">
+            <h2 class="text-3xl font-bold mb-6">¿Qué puedes hacer aquí?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <!-- Crear entrenamiento -->
+                <div class="bg-gray-200 p-8 rounded-lg shadow-md">
+                    <img src="https://img.icons8.com/ios-filled/100/000000/dumbbell.png" alt="Crear entrenamiento" class="mx-auto mb-4">
+
+                    <a href="{% url 'create_workout' %}" class="inline-block mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">Crear</a>
+
+                    <p>Diseña sesiones personalizadas para enfocarte en tus objetivos de calistenia, ya sea fuerza, resistencia o flexibilidad.</p>
+                </div>
+                <!-- Mostrar entrenamientos -->
+                <div class="bg-gray-200 p-8 rounded-lg shadow-md">
+                    <img src="https://img.icons8.com/ios-filled/100/000000/exercise.png" alt="Mostrar entrenamientos" class="mx-auto mb-4">
+                    <h3 class="text-xl font-bold mb-2">Mostrar Entrenamientos</h3>
+                    <p>Consulta y analiza tus registros diarios para monitorear tu progreso y mantenerte en el camino correcto.</p>
+                    <a href="{% url 'workout_list' %}" class="inline-block mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Ver Registros</a>
+                </div>
+
+                <div class="bg-gray-200 p-8 rounded-lg shadow-md">
+                    <img src="https://img.icons8.com/ios-filled/100/000000/exercise.png" alt="Mostrar entrenamientos" class="mx-auto mb-4">
+                    <h3 class="text-xl font-bold mb-2">Competir</h3>
+                    <p>Competencia con un rival.</p>
+                    <a href="{% url 'competir' %}" class="inline-block mt-4 bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">Competir</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-6">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Calistenia Pro. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

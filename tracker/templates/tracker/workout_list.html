@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Entrenamientos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 py-8">
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold text-center mb-8">Mis Entrenamientos</h1>
+        <ul class="bg-white p-4 rounded-lg shadow-md space-y-6">
+            <!-- Iterar sobre los entrenamientos -->
+            {% for workout in workouts %}
+                <li class="p-4 border-b border-gray-200">
+                    <!-- Información del entrenamiento -->
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-4">
+                        <div>
+                            <span class="font-semibold text-xl">{{ workout.nombre_del_entrenamiento }}</span>
+                            <span class="text-gray-600 text-sm block">{{ workout.fecha_creacion|date:"d M Y" }}</span>
+                        </div>
+                        <a href="{% url 'add_exercise' workout.id %}" class="mt-2 md:mt-0 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition">
+                            Agregar Ejercicio
+                        </a>
+                    </div>
+                    <!-- Lista de ejercicios -->
+                    <ul class="mt-4 pl-4 border-l-2 border-gray-200 space-y-4">
+                        {% for exercise in workout.exercises.all %}
+                            <li class="p-4 bg-gray-50 rounded-lg shadow-sm">
+                                <!-- Información del ejercicio -->
+                                <div class="flex flex-col md:flex-row justify-between items-start md:items-center">
+                                    <div>
+                                        <strong>{{ exercise.nombre_del_ejercicio }}</strong>
+                                        <span class="text-gray-600 text-sm block">
+                                            Series: {{ exercise.series }}, Reps: {{ exercise.reps }}, Peso: {{ exercise.peso|default:"N/A" }}, Tipo: {{ exercise.tipo_ejercicio }}
+                                        </span>
+                                    </div>
+                                    <div class="flex space-x-2 mt-2 md:mt-0">
+                                        <a href="{% url 'add_goal' exercise.id %}" class="bg-yellow-500 text-white px-3 py-1 rounded-lg hover:bg-yellow-600 transition">
+                                            Agregar Meta
+                                        </a>
+                                    </div>
+                                </div>
+                                <!-- Lista de metas asociadas -->
+                                <ul class="mt-2 space-y-2 pl-4 border-l-2 border-gray-300">
+                                    {% for goal in exercise.goals.all %}
+                                        <li class="flex justify-between items-center text-sm text-gray-700">
+                                            <div>
+                                                <strong>Meta:</strong> {{ goal.description }}
+                                                {% if goal.target_reps %}, <strong>Reps:</strong> {{ goal.target_reps }}{% endif %}
+                                                {% if goal.target_sets %}, <strong>Series:</strong> {{ goal.target_sets }}{% endif %}
+                                                {% if goal.target_weight %}, <strong>Peso:</strong> {{ goal.target_weight }}{% endif %}
+                                            </div>
+                                            <a href="{% url 'goal_detail' goal.id %}" class="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition">
+                                                Mostrar Detalles
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>
